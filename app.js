@@ -1,20 +1,22 @@
 const express = require('express');
 const app = express();
 const sequelize = require('./database/db');
-const User = require('./database/models/User');
 
 //Setting
 const PORT = process.env.PORT || 3000;
 
+//Middleware
+//Para poder rellenar el req.body
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
+
+
 //Routes
 app.get('/', function(req, res){
-    User.create({
-        name: "Carls",
-        birthday: new Date(1990,1,4)
-    }).then(user => {
-        res.json(user);
-    });
+    res.json("Hola mundo");
 });
+
+app.use('/api/posts/', require('./routes/posts'));
 
 app.listen(PORT, function(){
   console.log(`Example app listening on port ${PORT}`);
